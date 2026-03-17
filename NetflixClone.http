@@ -1,0 +1,6 @@
+@NetflixClone_HostAddress = http://localhost:5110
+
+GET {{NetflixClone_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
