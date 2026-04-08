@@ -1,43 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetflixClone.Data;
 using NetflixClone.DTOs;
 using NetflixClone.Models;
+using NetflixClone.Services;
 
 
 namespace NetflixClone.Controllers;
 
+
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[Controller]")]
 public class AuthController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly JWTService _jwtService;
 
-    public AuthController(ApplicationDbContext context)
-    {
+    public AuthController(ApplicationDbContext context, JWTService jwtService)
+    {   
+        _jwtService = jwtService;
         _context = context;
+       
     }
-
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto model)
     {
-
-        if (await _context.Users.AnyAsync(u => u.Email == model.Email || u.PhoneNumber == model.PhoneNumber))
-            return BadRequest("User with this email or phone already exists");
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
         var user = new User
         {
-            PhoneNumber = model.PhoneNumber,
             Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
             PasswordHash = hashedPassword
         };
+        if (await _context.Users.AnyAsync(u => u.Email == model.Email || u.PhoneNumber == model.PhoneNumber))
+            return BadRequest("User with this email or phone already exists");
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-
-        return Ok("User registered successfully");
+        var token = _jwtService.GenerateToken(user.Id.ToString());
+        return Ok(new { token });   
     }
 
+    [Authorize]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto model)
     {
@@ -52,6 +57,8 @@ public class AuthController : ControllerBase
         if (!validPassword)
             return Unauthorized("Invalid password");
 
-        return Ok("Login successful");
+
+        var token = _jwtService.GenerateToken(user.Id.ToString());
+        return Ok(new { token });
     }
 }

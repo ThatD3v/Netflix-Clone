@@ -18,11 +18,11 @@ public class FavoritesController : ControllerBase
     }
 
     // Add to favorites
-    //[Authorize]
+  //[Authorize]
     [HttpPost("add")]
-    public async Task<IActionResult> AddToFavorites(int profileId,int contentId, string contentType)
+    public async Task<IActionResult> AddToFavorites(int profileId,int contentId,string contentType)
     {
-        //var profileId = int.Parse(User.FindFirst("profileId")!.Value);
+       //ar profileId = int.Parse(User.FindFirst("profileId")!.Value);
 
         var exists = await _context.Favorites
             .AnyAsync(f => f.ProfileId == profileId && f.ContentId == contentId && f.ContentType == contentType);
@@ -44,11 +44,11 @@ public class FavoritesController : ControllerBase
     }
 
     // Remove from favorites
-    //[Authorize]
+    [Authorize]
     [HttpDelete("remove")]
-    public async Task<IActionResult> RemoveFromFavorites(int profileId,int contentId, string contentType)
+    public async Task<IActionResult> RemoveFromFavorites(int contentId, string contentType)
     {
-       // var profileId = int.Parse(User.FindFirst("profileId")!.Value);
+        var profileId = int.Parse(User.FindFirst("profileId")!.Value);
 
         var favorite = await _context.Favorites
             .FirstOrDefaultAsync(f => f.ProfileId == profileId && f.ContentId == contentId && f.ContentType == contentType);
@@ -63,11 +63,11 @@ public class FavoritesController : ControllerBase
     }
 
     // Get all favorites
-    //[Authorize]
+    [Authorize]
     [HttpGet("list")]
-    public async Task<IActionResult> GetFavorites(int profileId)
+    public async Task<IActionResult> GetFavorites()
     {
-       // var profileId = int.Parse(User.FindFirst("profileId")!.Value);
+        var profileId = int.Parse(User.FindFirst("profileId")!.Value);
 
         var favorites = await _context.Favorites
             .Where(f => f.ProfileId == profileId)

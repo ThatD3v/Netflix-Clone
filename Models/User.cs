@@ -1,7 +1,11 @@
-﻿namespace NetflixClone.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+
+namespace NetflixClone.Models;
 
 public class User
 {
+   
     public int Id { get; set; }
 
     public string? PhoneNumber { get; set; }
@@ -11,5 +15,6 @@ public class User
     public string? PasswordHash { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public ICollection<User>? Users { get; set; }
+    public ICollection<Profile>? profiles { get; set; } = new List<Profile>();
+
 }
