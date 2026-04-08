@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetflixClone.Data;
 using NetflixClone.Models;
@@ -17,28 +18,27 @@ namespace NetflixClone.Controllers
         }
 
         // ✅ Add or Update Watch
-       // [Authorize]
+       //Authorize]
         [HttpPost("watch")]
-        public async Task<IActionResult> AddorUpdateWatch(int profileId,int ContentId,double progress,string ContentType)
-       // public async Task<IActionResult> AddOrUpdateWatch(int ContentId, double progress,string ContentType)
+        public async Task<IActionResult> AddOrUpdateWatch(int profileId,int contentId,double progress,string contentType)
         {
-            //var profileId = int.Parse(User.FindFirst("profileId")!.Value);
+           //ar profileId = int.Parse(User.FindFirst("profileId")!.Value);
 
             var history = await _context.WatchHistories
                 .FirstOrDefaultAsync(
                 w => w.ProfileId == profileId &&
-                w.ContentId == ContentId &&
-                w.ContentType == ContentType
+                w.ContentId == contentId && w.Progress == progress &&
+                w.ContentType == contentType
                 );
 
-           if (history == null)
+            if (history == null)
             {
                 history = new WatchHistory
                 {
                     ProfileId = profileId,
-                    ContentId = ContentId,
+                    ContentId = contentId,
                     Progress = progress,
-                    ContentType = ContentType,
+                    ContentType = contentType,
                     IsCompleted = false
                 };
 
