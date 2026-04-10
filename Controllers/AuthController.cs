@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
         return Ok(new { token });   
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto model)
     {
