@@ -27,19 +27,34 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto model)
     {
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+        // ✅ Require at least Email or Phone
+        if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.PhoneNumber))
+            return BadRequest("Provide Email or Phone Number");
+
+        // ✅ Check if already exists
+        var exists = await _context.Users.AnyAsync(u =>
+            (!string.IsNullOrEmpty(model.Email) && u.Email == model.Email) ||
+            (!string.IsNullOrEmpty(model.PhoneNumber) && u.PhoneNumber == model.PhoneNumber)
+        );
+
+        if (exists)
+            return BadRequest("User already exists");
+
+        // ✅ Create user
         var user = new User
         {
-            PhoneNumber = model.PhoneNumber || Email = model.Email,
-            PasswordHash = hashedPassword
+            Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password)
         };
-        if (await _context.Users.AnyAsync(u => u.Email == model.Email || u.PhoneNumber == model.PhoneNumber))
-            return BadRequest("User with this email or phone already exists");
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
+
+        // ✅ Generate token
         var token = _jwtService.GenerateToken(user.Id.ToString());
-        return Ok(new { token });   
+
+        return Ok(new { token });
     }
 
     [Authorize]
