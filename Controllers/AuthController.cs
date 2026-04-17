@@ -38,7 +38,7 @@ public class AuthController : ControllerBase
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        var token = _jwtService.GenerateToken(user.Id.ToString());
+        var token = _jwtService.GenerateToken(user.Id.ToString(), user.Email);
         return Ok(new { token });   
     }
 
@@ -58,7 +58,7 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid password");
 
 
-        var token = _jwtService.GenerateToken(user.Id.ToString());
+        var token = _jwtService.GenerateToken(user.Id.ToString(), user.Email);
         return Ok(new { token });
     }
 }

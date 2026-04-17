@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using NetflixClone.Models;
 using System.Numerics;
 
@@ -18,6 +19,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Plan> Plans { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
     public DbSet<UserDevices> UserDevices { get; set; }
+    public DbSet<Movie> Movies { get; set; }
+    public DbSet<Payment> Payments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

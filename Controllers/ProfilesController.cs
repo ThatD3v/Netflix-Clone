@@ -23,17 +23,13 @@ public class ProfilesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateProfile(CreateProfileDto dto)
     {
-
-        // Get all profiles for this user
         var profiles = await _context.Profiles
             .Where(p => p.UserId == LoggedInUser.UserId)
             .ToListAsync();
 
-        //  Max 5 profiles
         if (profiles.Count >= 5)
             return BadRequest("Maximum 5 profiles allowed");
 
-        //Only 1 kids profile
         if (dto.IsKidProfile && profiles.Any(p => p.IsKidProfile))
             return BadRequest("Only one kids profile allowed");
 
@@ -51,7 +47,7 @@ public class ProfilesController : ControllerBase
         return Ok(profile);
     }
     [Authorize]
-    [HttpGet("{userId}")]
+    [HttpGet]
     public async Task<IActionResult> GetProfiles()
     {
         var profiles = await _context.Profiles

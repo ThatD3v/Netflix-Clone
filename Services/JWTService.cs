@@ -18,7 +18,7 @@ namespace NetflixClone.Services
             _audience = config["JWT:Audience"]
                 ?? throw new InvalidOperationException("JWT Audience is missing in appsettings.json");
         }
-        public string GenerateToken(string userId)
+        public string GenerateToken(string userId, string email)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -26,6 +26,8 @@ namespace NetflixClone.Services
             var claims = new[]
             {
             new Claim(JwtRegisteredClaimNames.Sub, userId),
+            new Claim(ClaimTypes.NameIdentifier, userId),
+            new Claim(ClaimTypes.Email, email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -33,7 +35,7 @@ namespace NetflixClone.Services
                 issuer:_issuer,
                 audience: _audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2), // token validity
+                expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: credentials
             );
 
