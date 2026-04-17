@@ -6,9 +6,9 @@ public class WatchHistory
 
     public int ProfileId { get; set; }
 
-    public int ContentId { get; set; } // Movie OR Episode ID
+    public int ContentId { get; set; } 
 
-    public string? ContentType { get; set; } // "Movie" or "Episode"
+    public string? ContentType { get; set; }
 
     public double Progress { get; set; }
 

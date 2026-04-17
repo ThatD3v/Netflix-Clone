@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(
     ));
 
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("Paystack", client =>
 {
     client.BaseAddress = new Uri("https://api.paystack.co/");
@@ -22,7 +23,33 @@ builder.Services.AddHttpClient("Paystack", client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Enter your JWT token in the text box below"
+    });
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+{
+    {
+        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+        {
+            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+            {
+                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        new string[]{}
+    }
+});
+
+});
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<PaystackService>();
 
@@ -144,6 +171,32 @@ using (var scope = app.Services.CreateScope())
     else
     {
         Console.WriteLine($"Found {context.Plans.Count()} existing plans in database");
+    }
+
+    if (!context.Movies.Any())
+    {
+        Console.WriteLine("Seeding movies into database...");
+        context.Movies.AddRange(
+        new Movie
+        {
+            Title = "Arcane",
+            Description = "A story about two sisters in a divided city.",
+            Genre = "Animation",
+            ReleaseYear = 2021,
+            ThumbnailUrl = "https://exmple.com",
+            VideoUrl = "https://example.com"
+        },
+        new Movie
+        {
+            Title = "Invincible",
+            Description = "A teenager discovers his father is the most powerful superhero on the planet.",
+            Genre = "Action, Animation",
+            ReleaseYear = 2021,
+            ThumbnailUrl = "https://exmple.com",
+
+        });
+        await context.SaveChangesAsync();
+        Console.WriteLine("Successfully seeded movies into database!");
     }
 }
     app.Run();
