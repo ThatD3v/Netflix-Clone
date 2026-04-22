@@ -119,10 +119,7 @@ namespace NetflixClone.Controllers
             var request = new InitializeTransactionRequest
         {
             Email = email,
-            Amount = (int)(plan.Price * 100),          
-            //Plan = plan.PaystackPlanCode,
-            //Reference = $"NETFLIX_{userId}_{DateTime.UtcNow.Ticks}",
-            //CallbackUrl = "https://yourfrontend.com/payment-success"   
+            Amount = (int)(plan.Price * 100), 
         };
 
             try

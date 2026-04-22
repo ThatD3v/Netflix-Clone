@@ -78,8 +78,6 @@ var app = builder.Build();
 
 app.Use((context, next) =>
 {
-    //LoggedInUser.Token = context.Request.Headers["Authorization"].ToString();
-    //LoggedInUser.Token = LoggedInUser.Token.Replace("Bearer", "");
     var authHeader = context.Request.Headers["Authorization"].ToString();
     LoggedInUser.Token = authHeader.Replace("Bearer ", "").Trim();
 
@@ -209,6 +207,42 @@ using (var scope = app.Services.CreateScope())
             ThumbnailUrl = "https://example.com",
             VideoUrl = "https://example.com"
 
+        },
+        new Movie 
+        {
+            Title = "Stranger Things",
+            Description = "A group of kids uncover supernatural mysteries in their small town.",
+            Genre = "Sci-Fi, Horror",
+            ReleaseYear = 2016,
+            ThumbnailUrl = "https://example.com",
+            VideoUrl = "https://example.com"
+        },
+        new Movie
+        {
+            Title = "Money Heist",
+            Description = "A criminal mastermind plans the biggest heist in history.",
+            Genre = "Thriller, Crime",
+            ReleaseYear = 2017,
+            ThumbnailUrl = "https://example.com",
+            VideoUrl = "https://example.com"
+        },
+        new Movie
+        {
+            Title = "The Witcher",
+            Description = "A monster hunter struggles to find his place in a world where people often prove more wicked than beasts.",
+            Genre = "Fantasy, Action",
+            ReleaseYear = 2019,
+            ThumbnailUrl = "https://example.com",
+            VideoUrl = "https://example.com"
+        },
+        new Movie
+        {
+            Title = "Squid Game",
+            Description = "Hundreds of cash-strapped contestants accept an invitation to compete in children's games for a tempting prize, but the stakes are deadly.",
+            Genre = "Horror, Thriller",
+            ReleaseYear = 2021,
+            ThumbnailUrl = "https://example.com",
+            VideoUrl = "https://example.com"
         }
        };
 
