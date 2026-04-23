@@ -11,7 +11,6 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<WatchHistory> WatchHistories { get; set; }
@@ -20,8 +19,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<Subscription> Subscriptions { get; set; }
     public DbSet<UserDevices> UserDevices { get; set; }
     public DbSet<Movie> Movies { get; set; }
+    public DbSet<Series> Series { get; set; }
+    public DbSet<Season> Seasons { get; set; }
+    public DbSet<Episode> Episodes { get; set; }
     public DbSet<Payment> Payments { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

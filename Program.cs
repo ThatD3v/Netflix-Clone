@@ -176,71 +176,72 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"Found {context.Plans.Count()} existing plans in database");
     }
 
+    //The Movies Section
     Console.WriteLine("Checking for new movies...");
     var seedMovies = new List<Movie>
        {
         new Movie
         {
-            Title = "Arcane",
-            Description = "A story about two sisters in a divided city.",
-            Genre = "Animation",
+            Title = "Dune",
+            Description = "A story about paul atreides and how he became the lisan al-gaib. ",
+            Genre = "Action, Fantasy, Drama",
             ReleaseYear = 2021,
             ThumbnailUrl = "https://exmple.com",
             VideoUrl = "https://example.com"
         },
         new Movie
         {
-            Title = "Invincible",
-            Description = "A teenager discovers his father is the most powerful superhero on the planet.",
-            Genre = "Action, Animation",
-            ReleaseYear = 2021,
+            Title = "The Rip",
+            Description = "A movie about the truth of what goes on when dealing with stash houses by the Feds. ",
+            Genre = "Action, Drama, Mystery",
+            ReleaseYear = 2026,
             ThumbnailUrl = "https://example.com",
             VideoUrl = "https://example.com"
 
         },
         new Movie
         {
-            Title = "The Boys",
-            Description = "A group of misfits set out to take down corrupt superheroes.",
-            Genre = "Action, Drama",
-            ReleaseYear = 2019,
+            Title = "Spiderman : Into The Spiderverse",
+            Description = "Miles Morales becomes Newyorks new webslinger. well, he's not the only one. ",
+            Genre = "Animation, Action",
+            ReleaseYear = 2018,
             ThumbnailUrl = "https://example.com",
             VideoUrl = "https://example.com"
 
         },
         new Movie 
         {
-            Title = "Stranger Things",
-            Description = "A group of kids uncover supernatural mysteries in their small town.",
-            Genre = "Sci-Fi, Horror",
-            ReleaseYear = 2016,
+            Title = "The Bad Guys",
+            Description = "A band of misfits set out to see if they can be anything else asides from bad. ",
+            Genre = "Animation, Comedy,",
+            ReleaseYear = 2022,
             ThumbnailUrl = "https://example.com",
             VideoUrl = "https://example.com"
         },
         new Movie
         {
-            Title = "Money Heist",
-            Description = "A criminal mastermind plans the biggest heist in history.",
-            Genre = "Thriller, Crime",
-            ReleaseYear = 2017,
+            Title = "Interstellar",
+            Description = "A father and daugther's love is tested when time dilation comes into play. ",
+            Genre = "Suspense, Sci-fi",
+            ReleaseYear = 2013,
             ThumbnailUrl = "https://example.com",
             VideoUrl = "https://example.com"
         },
         new Movie
         {
-            Title = "The Witcher",
-            Description = "A monster hunter struggles to find his place in a world where people often prove more wicked than beasts.",
-            Genre = "Fantasy, Action",
-            ReleaseYear = 2019,
+            Title = "The Dark Knight",
+            Description = "The Caped crusader meets his ultimate nemesis; The Joker. ",
+            Genre = "Action, Thriller, Superhero",
+            ReleaseYear = 2008,
             ThumbnailUrl = "https://example.com",
             VideoUrl = "https://example.com"
         },
         new Movie
         {
-            Title = "Squid Game",
-            Description = "Hundreds of cash-strapped contestants accept an invitation to compete in children's games for a tempting prize, but the stakes are deadly.",
-            Genre = "Horror, Thriller",
-            ReleaseYear = 2021,
+            Title = "Oppenheimer",
+            Description = "The truth behind the manhattan project and what actually transpired. ",
+            Genre = "Biography, Thriller, Drama",
+            ReleaseYear = 2023,
             ThumbnailUrl = "https://example.com",
             VideoUrl = "https://example.com"
         }
@@ -257,5 +258,114 @@ using (var scope = app.Services.CreateScope())
     }
         await context.SaveChangesAsync();
     Console.WriteLine("Movie sync complete!");
+
+    //The Series Section
+    var seriesList = new List<Series>
+    {
+        new Series
+        {
+            Title = "Arcane",
+            Description = "The Story of how two beloved character's from the hit game 'League Of Legends' came to be.",
+            Seasons = new List<Season>
+            {
+                new Season
+                {
+                    SeasonNumber = 1,
+                    Episodes = new List<Episode>
+                    {
+                        new Episode
+                        {
+                            EpisodeNumber =1,
+                            Title = "...",
+                            Description = "...",
+                            VideoUrl = "..."
+                        },
+                        new Episode
+                        {
+                            EpisodeNumber =2,
+                            Title = "...",
+                            Description="...",
+                            VideoUrl="..."
+                        },
+                        new Episode
+                        {
+                            EpisodeNumber =3,
+                            Title = "...",
+                            Description = "...",
+                            VideoUrl = "..."
+                        }
+                    }
+                }
+            }
+        },
+        new Series
+        {
+            Title = "House Of The Dragon",
+            Description ="The story of the Targaryen Civil War that led to near extinction of the Valyrians and thier dragons. ",
+            Seasons = new List<Season>
+            {
+                new Season
+                {
+                    SeasonNumber = 1,
+                    Episodes = new List<Episode>
+                    {
+                        new Episode
+                        {
+                           EpisodeNumber =1,
+                           Title = "The Heirs of the Dragon",
+                           Description = "The Princess learns she's going to be a sister to a boy. A Prince.",
+                           VideoUrl = "https://example.com"
+                        },
+                        new Episode
+                        {
+                           EpisodeNumber =2,
+                           Title = "The Rogue Prince",
+                           Description = "Daemon takes matters to his hands when the court. ",
+                           VideoUrl = "https://example.com"
+                        },
+                        new Episode
+                        {
+                           EpisodeNumber =3,
+                           Title = "Second of His Name",
+                           Description = "Viserys mourns continues to mourn the death of his son. ",
+                           VideoUrl = "https://example.com"
+                        },
+                    }
+                },
+                new Season
+                {
+                    SeasonNumber = 2,
+                    Episodes = new List<Episode>
+                    {
+                        new Episode
+                        {
+                           EpisodeNumber =1,
+                           Title = "A Son for a Son. ",
+                           Description = "Rhaenyra strategises how to take back her throne from her brother, Aegon. ",
+                           VideoUrl = "https://example.com"
+                        },
+                        new Episode
+                        {
+                           EpisodeNumber = 2,
+                           Title = "Rhaenyra the cruel",
+                           Description = "The princess faces her biggest foe yet. herself.",
+                           VideoUrl =  "https://example.com"
+                        }
+                    }
+                }
+            }
+        }
+        
+    };
+    foreach (var series in seriesList)
+    {
+        if (!await context.Series.AnyAsync(s => s.Title == series.Title))
+        {
+            context.Series.Add(series);
+            Console.WriteLine($"Adding Series: {series.Title}");
+        }
+    }
+    await context.SaveChangesAsync();
+    Console.WriteLine("Everything has been saved!");
 }
     app.Run();
