@@ -1,18 +1,24 @@
-﻿namespace NetflixClone.Models;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Profile
+namespace NetflixClone.Models
 {
-    public int Id { get; set; }
-
-    public int UserId { get; set; }
-
-    public string? Name { get; set; }
-
-    public bool IsKidProfile { get; set; }
-
-    public string? AvatarUrl { get; set; }
-
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-    public User? User { get; set; }
+    public class Profile
+    {
+        [Key]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        [Required]
+        public string UserId { get; set; } = string.Empty;
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; } = string.Empty;
+        public string? AvatarUrl { get; set; }
+        public bool IsKidsProfile { get; set; } = false;
+        public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User? User { get; set; }
+    }
 }

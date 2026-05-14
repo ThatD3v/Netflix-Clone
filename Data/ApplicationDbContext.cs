@@ -1,90 +1,127 @@
-﻿
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NetflixClone.Models;
-using System.Numerics;
+
 
 namespace NetflixClone.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
-    public DbSet<User> Users { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity<User>().ToTable("Users");
+        builder.Entity<IdentityRole>().ToTable("Roles");
+        builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+        builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+        builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+        builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+
+
+   
+        builder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+        builder.Entity<User>()
+            .HasIndex(u => u.PhoneNumber)
+            .IsUnique();
+
+        builder.Entity<User>()
+            .HasIndex(u => u.IsActive);
+
+
+        builder.Entity<Content>(entity =>
+        {
+            entity.ToTable("Contents");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Title);
+            entity.Property(e => e.Title).HasMaxLength(200);
+        });
+
+        builder.Entity<Genre>(entity =>
+        {
+            entity.ToTable("Genres");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Name).IsUnique();
+        });
+
+        builder.Entity<ContentGenre>(entity =>
+        {
+            entity.ToTable("ContentGenres");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.ContentId, e.GenreId }).IsUnique();
+        });
+
+        builder.Entity<Cast>(entity =>
+        {
+            entity.ToTable("Casts");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.ContentId);
+        });
+
+        builder.Entity<Season>(entity =>
+        {
+            entity.ToTable("Seasons");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.ContentId, e.SeasonNumber }).IsUnique();
+        });
+
+        builder.Entity<Episode>(entity =>
+        {
+            entity.ToTable("Episodes");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.SeasonId, e.EpisodeNumber }).IsUnique();
+        });
+
+
+        builder.Entity<ProfileWatchHistory>(entity =>
+        {
+            entity.ToTable("ProfileWatchHistories");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.ProfileId, e.ContentId });
+            entity.HasIndex(e => e.LastWatchedAt);
+
+            entity.HasOne(e => e.Profile)
+                .WithMany()
+                .HasForeignKey(e => e.ProfileId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<ProfileMyList>(entity =>
+        {
+            entity.ToTable("ProfileMyLists");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.ProfileId, e.ContentId }).IsUnique();
+
+            entity.HasOne(e => e.Profile)
+                .WithMany()
+                .HasForeignKey(e => e.ProfileId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+    }
+
+
+    public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
+    public DbSet<UserSubscription> UserSubscriptions { get; set; }
+    public DbSet<PaymentHistory> PaymentHistory { get; set; }
     public DbSet<Profile> Profiles { get; set; }
-    public DbSet<WatchHistory> WatchHistories { get; set; }
-    public DbSet<Favorite> Favorites { get; set; }
-    public DbSet<Plan> Plans { get; set; }
-    public DbSet<Subscription> Subscriptions { get; set; }
-    public DbSet<UserDevices> UserDevices { get; set; }
-    public DbSet<Movie> Movies { get; set; }
-    public DbSet<Series> Series { get; set; }
+    public DbSet<Content> Contents { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<ContentGenre> ContentGenres { get; set; }
+    public DbSet<Cast> Casts { get; set; }
     public DbSet<Season> Seasons { get; set; }
     public DbSet<Episode> Episodes { get; set; }
-    public DbSet<Payment> Payments { get; set; }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Plan>().HasData(
-            new Plan
-            {
-                Id = 1,
-                Name = "Mobile",
-                Price = 2500,
-                VideoQuality = "Fair",
-                Resolution = "480p",
-                SpatialAudio = false,
-                MaxDevices = 1,
-                MaxDownloadDevices = 1,
-                AllowedDeviceTypes = "mobile,tablet",
-                Description = "Mobile devices only",
-                PaystackPlanCode = "PLN_mobile_monthly"        
-            },
-            new Plan
-            {
-                Id = 2,
-                Name = "Basic",
-                Price = 4000,
-                VideoQuality = "Good",
-                Resolution = "720p",
-                SpatialAudio = false,
-                MaxDevices = 1,
-                MaxDownloadDevices = 1,
-                AllowedDeviceTypes = "tv,computer,mobile,tablet",
-                Description = "HD streaming on 1 device",
-                PaystackPlanCode = "PLN_basic_monthly"         
-            },
-            new Plan
-            {
-                Id = 3,
-                Name = "Standard",
-                Price = 6500,
-                VideoQuality = "Great",
-                Resolution = "1080p",
-                SpatialAudio = false,
-                MaxDevices = 2,
-                MaxDownloadDevices = 2,
-                AllowedDeviceTypes = "tv,computer,mobile,tablet",
-                Description = "Full HD streaming, 2 devices",
-                PaystackPlanCode = "PLN_standard_monthly"      
-            },
-            new Plan
-            {
-                Id = 4,
-                Name = "Premium",
-                Price = 8500,
-                VideoQuality = "Best",
-                Resolution = "4K + HDR",
-                SpatialAudio = true,
-                MaxDevices = 4,
-                MaxDownloadDevices = 6,
-                AllowedDeviceTypes = "tv,computer,mobile,tablet",
-                Description = "Ultra HD streaming with HDR and spatial audio",
-                PaystackPlanCode = "PLN_premium_monthly"       
-            }
-        );
+    public DbSet<ProfileWatchHistory> ProfileWatchHistories { get; set; }
+    public DbSet<ProfileMyList> ProfileMyLists { get; set; }
 
-
-    }
 }

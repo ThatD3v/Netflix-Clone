@@ -3,62 +3,113 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetflixClone.Data;
 using NetflixClone.DTOs;
-using NetflixClone.Models;
 using NetflixClone.Services;
-
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace NetflixClone.Controllers;
 
-
 [ApiController]
-[Route("api/[Controller]")]
+[Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
+    private readonly IAuthService _authService;
     private readonly ApplicationDbContext _context;
-    private readonly JWTService _jwtService;
 
-    public AuthController(ApplicationDbContext context, JWTService jwtService)
-    {   
-        _jwtService = jwtService;
+    public AuthController(IAuthService authService, ApplicationDbContext context)
+    {
+        _authService = authService;
         _context = context;
-       
+    }
+    [HttpGet("test-db")]
+    public async Task<IActionResult> TestDatabase()
+    {
+        try
+        {
+            var canConnect = await _context.Database.CanConnectAsync();
+            return Ok(new
+            {
+                connected = canConnect,
+                message = canConnect ? "Database connected!" : "Cannot connect to database"
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message, stack = ex.StackTrace });
+        }
+    }
+    [HttpPost("check")]
+    public async Task<IActionResult> CheckUser([FromBody] CheckUserRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.CheckUserExistsAsync(request);
+        return Ok(result);
+    }
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] NetflixClone.DTOs.LoginRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _authService.LoginAsync(request);
+
+        if (!result.Success)
+            return Unauthorized(result);
+
+        return Ok(result);
     }
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterDto model)
+    public async Task<IActionResult> Register([FromBody] NetflixClone.DTOs.RegisterRequest request)
     {
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-        var user = new User
-        {
-            Email = model.Email,
-            PhoneNumber = model.PhoneNumber,
-            PasswordHash = hashedPassword
-        };
-        if (await _context.Users.AnyAsync(u => u.Email == model.Email || u.PhoneNumber == model.PhoneNumber))
-            return BadRequest("User with this email or phone already exists");
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-        var token = _jwtService.GenerateToken(user.Id.ToString(), user.Email);
-        return Ok(new { token });   
+        var result = await _authService.RegisterAsync(request);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
     }
-
-    //[Authorize]
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDto model)
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u =>
-            u.Email == model.Identifier || u.PhoneNumber == model.Identifier);
+        var result = await _authService.RefreshTokenAsync(request);
+
+        if (!result.Success)
+            return Unauthorized(result);
+
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+
+        var result = await _authService.LogoutAsync(userId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+
+        var user = await _authService.GetUserByIdAsync(userId);
 
         if (user == null)
-            return Unauthorized("User not found");
+            return NotFound();
 
-        bool validPassword = BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash);
-
-        if (!validPassword)
-            return Unauthorized("Invalid password");
-
-
-        var token = _jwtService.GenerateToken(user.Id.ToString(), user.Email);
-        return Ok(new { token });
+        return Ok(user);
     }
 }
