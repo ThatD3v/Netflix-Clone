@@ -6,14 +6,7 @@ using Microsoft.OpenApi.Models;
 using NetflixClone.Data;
 using NetflixClone.Models;
 using NetflixClone.Services;
-using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,8 +43,13 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddHttpClient("Paystack", client =>
+{
+    client.BaseAddress = new Uri("https://api.paystack.co/");
+});
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine("Attempting to connect to: db48279.public.databaseasp.net");
+Console.WriteLine("Attempting to connect to: netflixclonedb");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -73,8 +71,9 @@ builder.Services.AddIdentityCore<User>(options =>
     options.Password.RequireLowercase = true;
     options.User.RequireUniqueEmail = false;
 });
+
 var identityBuilder = new IdentityBuilder(typeof(User), typeof(IdentityRole), builder.Services);
-identityBuilder.AddRoles<User>();
+identityBuilder.AddRoles<IdentityRole>(); 
 identityBuilder.AddEntityFrameworkStores<ApplicationDbContext>();
 identityBuilder.AddDefaultTokenProviders();
 
@@ -163,11 +162,10 @@ using (var scope = app.Services.CreateScope())
         await dbContext.Database.CanConnectAsync();
         Console.WriteLine("Database connected successfully!");
 
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<User>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
         if (!await roleManager.RoleExistsAsync("User"))
         {
-            await roleManager.CreateAsync()
             await roleManager.CreateAsync(new IdentityRole("User"));
             Console.WriteLine("Created User role");
         }

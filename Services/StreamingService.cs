@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using NetflixClone.Data;
 using NetflixClone.DTOs;
 using NetflixClone.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NetflixClone.Services;
 
@@ -192,13 +186,12 @@ public class StreamingService : IStreamingService
                         EpisodeId = episode.Id,
                         Title = episode.Season.Content.Title ?? "Unknown",
 
-                        // FIXED WARNING: Explicit null safety formatting used here
                         EpisodeTitle = episode.Season != null
                             ? $"S{episode.Season.SeasonNumber}:E{episode.EpisodeNumber} - {episode.Title}"
                             : episode.Title,
                         SeasonNumber = episode.Season?.SeasonNumber,
                         EpisodeNumber = episode.EpisodeNumber,
-                        PosterUrl = episode.ThumbnailUrl ?? episode.Season.Content.PosterUrl,
+                        PosterUrl = episode.ThumbnailUrl ?? episode.Season?.Content.PosterUrl,
                         ProgressSeconds = history.ProgressSeconds,
                         DurationSeconds = history.DurationSeconds,
                         ProgressPercentage = history.DurationSeconds > 0

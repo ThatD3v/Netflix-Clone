@@ -2,18 +2,13 @@
 using NetflixClone.Data;
 using NetflixClone.DTOs;
 using NetflixClone.Models;
-using System;
-using System.IO;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace NetflixClone.Services;
+
 public class PaymentService(
     ApplicationDbContext context,
     ISubscriptionService subscriptionService,
@@ -31,6 +26,8 @@ public class PaymentService(
     private static HttpClient CreateConfiguredClient(string secretKey)
     {
         HttpClient client = new();
+        
+        client.BaseAddress = new Uri("https://api.paystack.co/");
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", secretKey);
         return client;
     }
@@ -42,61 +39,81 @@ public class PaymentService(
             var plan = await _context.SubscriptionPlans.FindAsync(planId);
             if (plan == null)
             {
-                return new InitializePaymentResponse { Status = false, Message = "Invalid Plan Selected." };
+                return new InitializePaymentResponse
+                {
+                    Status = false,
+                    Message = "Invalid Plan Selected."
+                };
             }
 
             var payload = new
             {
-                Email = email,
+                email = email,
                 amount = (int)(plan.Price * 100),
                 currency = "NGN",
                 callback_url = _configuration["Paystack:CallbackUrl"],
-                metadata = new { user_id = userId, plan_id = planId, plan_name = plan.Name }
+                metadata = new
+                {
+                    user_id = userId,
+                    plan_id = planId,
+                    plan_name = plan.Name
+                }
             };
 
             var json = JsonSerializer.Serialize(payload);
-            using StringContent content = new(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("paystack.co", content);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+           
+            var response = await _httpClient.PostAsync("transaction/initialize", content);
             var responseString = await response.Content.ReadAsStringAsync();
 
             using var doc = JsonDocument.Parse(responseString);
             var root = doc.RootElement;
-            var status = root.GetProperty("status").GetBoolean();
 
-            if (status)
+            if (!root.GetProperty("status").GetBoolean())
             {
-                var data = root.GetProperty("data");
-                var reference = data.GetProperty("reference").GetString();
-
-                PaymentHistory payment = new()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserId = userId,
-                    Amount = plan.Price,
-                    Currency = "NGN",
-                    Status = "pending",
-                    Reference = reference,
-                    Description = $"Subscription to {plan.Name} plan"
-                };
-
-                _context.PaymentHistory.Add(payment);
-                await _context.SaveChangesAsync();
-
                 return new InitializePaymentResponse
                 {
-                    Status = true,
-                    Message = "Payment Initialized Successfully",
-                    AuthorizationUrl = data.GetProperty("authorization_url").GetString(),
-                    Reference = reference,
-                    AccessCode = data.GetProperty("access_code").GetString()
+                    Status = false,
+                    Message = "Paystack initialization failed"
                 };
             }
-            return new InitializePaymentResponse { Status = false, Message = "API Error" };
+
+            var data = root.GetProperty("data");
+
+            var reference = data.GetProperty("reference").GetString();
+
+            var payment = new PaymentHistory
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserId = userId,
+                Amount = plan.Price,
+                Currency = "NGN",
+                Status = "pending",
+                Reference = reference,
+                Description = $"Subscription to {plan.Name}"
+            };
+
+            _context.PaymentHistory.Add(payment);
+            await _context.SaveChangesAsync();
+
+            return new InitializePaymentResponse
+            {
+                Status = true,
+                Message = "Payment Initialized Successfully",
+                AuthorizationUrl = data.GetProperty("authorization_url").GetString(),
+                Reference = reference,
+                AccessCode = data.GetProperty("access_code").GetString()
+            };
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Initialize Error");
-            return new InitializePaymentResponse { Status = false, Message = ex.Message };
+            _logger.LogError(ex, "Initialize Payment Error");
+            return new InitializePaymentResponse
+            {
+                Status = false,
+                Message = ex.Message
+            };
         }
     }
 
@@ -105,14 +122,18 @@ public class PaymentService(
         try
         {
             var payment = await _context.PaymentHistory.FirstOrDefaultAsync(p => p.Reference == reference);
-            if (payment == null) return new VerifyPaymentResponse { Success = false, Message = "Record Not Found." };
-            var response = await _httpClient.GetAsync($"paystack.co{reference}");
+            if (payment == null)
+                return new VerifyPaymentResponse { Success = false, Message = "Record Not Found." };
+
+            // ✅ FIX: Use relative path with BaseAddress
+            var response = await _httpClient.GetAsync($"transaction/verify/{reference}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             using var doc = JsonDocument.Parse(responseString);
             var root = doc.RootElement;
 
-            if (root.GetProperty("status").GetBoolean() && root.GetProperty("data").GetProperty("status").GetString() == "success")
+            if (root.GetProperty("status").GetBoolean() &&
+                root.GetProperty("data").GetProperty("status").GetString() == "success")
             {
                 var data = root.GetProperty("data");
                 payment.Status = "success";
@@ -123,7 +144,12 @@ public class PaymentService(
 
                 var planId = data.GetProperty("metadata").GetProperty("plan_id").GetString() ?? "";
                 var subscription = await _subscriptionService.CreateSubscriptionAsync(payment.UserId, planId, false);
-                return new VerifyPaymentResponse { Success = true, Message = "Payment verified and subscription activated", Subscription = subscription };
+                return new VerifyPaymentResponse
+                {
+                    Success = true,
+                    Message = "Payment verified and subscription activated",
+                    Subscription = subscription
+                };
             }
 
             payment.Status = "failed";
@@ -141,7 +167,9 @@ public class PaymentService(
     {
         try
         {
-            if (string.IsNullOrEmpty(_secretKey)) return new WebhookResponse { Success = false, Message = "Config Error" };
+            if (string.IsNullOrEmpty(_secretKey))
+                return new WebhookResponse { Success = false, Message = "Config Error" };
+
             var expectedSignature = ComputeSignature(jsonPayload, _secretKey);
             if (signature != expectedSignature)
             {
@@ -150,7 +178,8 @@ public class PaymentService(
             }
 
             var payload = JsonSerializer.Deserialize<PaystackWebhookPayload>(jsonPayload);
-            if (payload == null) return new WebhookResponse { Success = false, Message = "Invalid Payload" };
+            if (payload == null)
+                return new WebhookResponse { Success = false, Message = "Invalid Payload" };
 
             _logger.LogInformation("Webhook Received: {Event}", payload.Event);
 
@@ -195,6 +224,7 @@ public class PaymentService(
             _logger.LogWarning("Payment Not Found: {Reference}", data.Reference);
             return;
         }
+
         if (payment.Status == "success")
         {
             _logger.LogInformation("Payment Already Processed: {Reference}", data.Reference);

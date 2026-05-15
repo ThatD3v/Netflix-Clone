@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using NetflixClone.Data;
 using NetflixClone.DTOs;
 using NetflixClone.Models;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NetflixClone.Services
 {

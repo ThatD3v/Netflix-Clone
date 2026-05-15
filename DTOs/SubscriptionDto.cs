@@ -1,5 +1,4 @@
-﻿using System;
-namespace NetflixClone.DTOs
+﻿namespace NetflixClone.DTOs
 {
     public class PlanResponse
     {

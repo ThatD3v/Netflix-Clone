@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NetflixClone.DTOs;
+﻿using NetflixClone.DTOs;
 
 namespace NetflixClone.Services
 {

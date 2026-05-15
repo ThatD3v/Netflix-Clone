@@ -1,20 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using NetflixClone.Data;
 using NetflixClone.DTOs;
 using NetflixClone.Models;
 using NetflixClone.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NetflixClone.Controllers
 {

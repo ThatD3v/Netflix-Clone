@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NetflixClone.DTOs;
 using NetflixClone.Services;
-using System;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace NetflixClone.Controllers
 {
