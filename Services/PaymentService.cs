@@ -125,7 +125,6 @@ public class PaymentService(
             if (payment == null)
                 return new VerifyPaymentResponse { Success = false, Message = "Record Not Found." };
 
-            // ✅ FIX: Use relative path with BaseAddress
             var response = await _httpClient.GetAsync($"transaction/verify/{reference}");
             var responseString = await response.Content.ReadAsStringAsync();
 
