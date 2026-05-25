@@ -1,8 +1,49 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../Styles/LandingPage.css";
 import Header from "../Components/Header";
 
 function LandingPage() {
+  const carouselRef = useRef(null);
+
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(true);
+
+  const updateButtons = () => {
+    const el = carouselRef.current;
+
+    if (!el) return;
+
+    setShowLeft(el.scrollLeft > 0);
+
+    setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    updateButtons();
+
+    const el = carouselRef.current;
+
+    el.addEventListener("scroll", updateButtons);
+
+    return () => {
+      el.removeEventListener("scroll", updateButtons);
+    };
+  }, []);
+
+  const scrollLeft = () => {
+    carouselRef.current.scrollBy({
+      left: -400,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    carouselRef.current.scrollBy({
+      left: 400,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="landing">
       <div className="background">
@@ -50,17 +91,49 @@ function LandingPage() {
       </div>
       <div className="carousel-section">
         <h1>Trending Now</h1>
-        <div className="carousel">
-          <img src="poster1.jpg" alt="beauty in black" />
-          <img src="poster2.jpg" alt="beauty in black" />
-          <img src="poster3.jpg" alt="beauty in black" />
-          <img src="poster1.jpg" alt="beauty in black" />
-          <img src="poster2.jpg" alt="beauty in black" />
-          <img src="poster3.jpg" alt="beauty in black" />
-          <img src="poster1.jpg" alt="beauty in black" />
-          <img src="poster2.jpg" alt="beauty in black" />
-          <img src="poster3.jpg" alt="beauty in black" />
-          <img src="poster1.jpg" alt="beauty in black" />
+        <div className="carousel-wrapper">
+          {showLeft && (
+            <button className="nav left" onClick={scrollLeft}>
+              ◀
+            </button>
+          )}
+          <div className="carousel" ref={carouselRef}>
+            <div className="item">
+              <img src="poster1.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster2.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster3.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster1.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster2.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster3.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster1.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster2.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster3.jpg" alt="beauty in black" />
+            </div>
+            <div className="item">
+              <img src="poster1.jpg" alt="beauty in black" />
+            </div>
+          </div>
+          {showRight && (
+            <button className="nav right" onClick={scrollRight}>
+              ▶
+            </button>
+          )}
         </div>
         <br />
       </div>

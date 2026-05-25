@@ -112,20 +112,72 @@
   margin-bottom: 2%;
 }
 
-.landing .carousel {
-  margin: 0 auto;
-  display: flex;
+.carousel-wrapper {
+  position: relative;
   width: 77%;
+  margin: auto;
+}
+
+.landing .carousel {
+  display: flex;
   gap: 50px;
   justify-content: flex-start;
   align-items: center;
   overflow-x: auto;
+  overflow-y: visible;
   scroll-behavior: smooth;
   scrollbar-width: none;
+  counter-reset: item;
+  padding-left: 40px;
+}
+
+.landing .nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  padding: 20px 10px;
+  cursor: pointer;
+  border-radius: 20px;
+  color: white;
+  background-color: rgba(255, 252, 252, 0.2);
+}
+
+.landing .left {
+  left: -45px;
+}
+
+.landing .right {
+  right: -45px;
 }
 
 .landing .carousel img {
   height: 300px;
   border-radius: 10px;
-  flex-shrink: 0;
+  display: block;
+}
+
+.landing .item {
+  position: relative;
+  counter-increment: item;
+  transition: transform 0.3s ease;
+}
+
+.landing .item::before {
+  content: counter(item);
+  position: absolute;
+  left: -30px;
+  bottom: 10px;
+  font-size: 7rem;
+  font-weight: 900;
+  color: black;
+  -webkit-text-stroke: 2px white;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.landing .item:hover {
+  transform: scale(1.08);
+  cursor: pointer;
 }
