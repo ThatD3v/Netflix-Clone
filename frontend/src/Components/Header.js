@@ -5,11 +5,7 @@ function Header() {
   return (
     <div className="landing-header">
       <div className="img">
-        <img
-          src="Netflix Logo/Netflix_Logo_RGB.png"
-          alt="Netflix"
-          width={"200px"}
-        />
+        <img src="Netflix Logo/Netflix.png" alt="Netflix" width={"150px"} />
       </div>
       <div className="signIn">
         <button>Sign in</button>

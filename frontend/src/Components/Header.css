@@ -5,6 +5,10 @@
   gap: 60%;
 }
 
+.landing-header img {
+  margin-top: 20px;
+}
+
 .landing-header button {
   border: none;
   padding: 8px 15px;
@@ -13,4 +17,5 @@
   color: white;
   background-color: #e50914;
   font-weight: bold;
+  cursor: pointer;
 }

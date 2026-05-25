@@ -4,6 +4,11 @@
 
 .landing {
   background-color: black;
+  color: white;
+}
+
+.landing .background {
+  background-color: black;
   position: relative;
   height: 100vh;
   color: white;
@@ -18,7 +23,7 @@
     url("../Images/netflix_background_image.jpg");
 }
 
-.headerContainer {
+.landing .headerContainer {
   display: flex;
 }
 
@@ -60,30 +65,67 @@
 }
 
 .mainTitle h4 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 2%;
 }
 
 .mainTitle p {
-  margin-bottom: 0.5%;
+  margin-bottom: 1.8%;
 }
 
 .mainTitle input {
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 5px;
-  padding: 15px 10px;
+  padding: 15px 15px;
   width: 350px;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.1);
   color: white;
+  font-size: 1rem;
+}
+
+.mainTitle input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .mainTitle button {
   border: none;
-  padding: 15px 30px;
+  padding: 10px 35px;
   font-size: 1.5rem;
-  border-radius: 5px;
+  border-radius: 3px;
   /* margin-left: 1%; */
   color: white;
   background-color: #e50914;
-  font-weight: bold;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mainTitle form {
+  display: flex;
+  justify-content: space-between;
+  gap: 7px;
+  /* flex-direction: column; */
+}
+
+.landing .carousel-section h1 {
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-bottom: 2%;
+}
+
+.landing .carousel {
+  margin: 0 auto;
+  display: flex;
+  width: 77%;
+  gap: 50px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.landing .carousel img {
+  height: 300px;
+  border-radius: 10px;
+  flex-shrink: 0;
 }
