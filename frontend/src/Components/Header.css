@@ -1,0 +1,16 @@
+.landing-header {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 60%;
+}
+
+.landing-header button {
+  border: none;
+  padding: 8px 15px;
+  margin-top: 20px;
+  border-radius: 3px;
+  color: white;
+  background-color: #e50914;
+  font-weight: bold;
+}
