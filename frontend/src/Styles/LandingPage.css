@@ -181,3 +181,39 @@
   transform: scale(1.08);
   cursor: pointer;
 }
+
+.join-reasons-section h2 {
+  margin-left: 10%;
+  margin-top: 2%;
+  margin-bottom: 1%;
+}
+
+.join-reasons {
+  display: flex;
+  width: 80%;
+  margin: auto;
+  justify-content: center;
+  gap: 20px;
+}
+
+.join-reasons div {
+  background: linear-gradient(
+    to bottom right,
+    #1a2145 0%,
+    #1d1733 55%,
+    #1c0e20 100%
+  );
+  border-radius: 20px;
+  padding: 20px;
+  height: 250px;
+}
+
+.join-reasons h1 {
+  margin-bottom: 10%;
+  font-size: 1.75rem;
+}
+
+.faq-section h2 {
+  margin-left: 10%;
+  margin-bottom: 2%;
+}

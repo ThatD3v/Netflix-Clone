@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../Styles/LandingPage.css";
 import Header from "../Components/Header";
+import FAQ from "../Components/Faq";
 
 function LandingPage() {
   const carouselRef = useRef(null);
@@ -136,7 +137,55 @@ function LandingPage() {
           )}
         </div>
         <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
+      <div className="join-reasons-section">
+        <h2>More Reasons to Join</h2>
+        <div className="join-reasons">
+          <div>
+            <h1>Enjoy on your TV</h1>
+            <p>
+              Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV,
+              Blu-ray players, and more.
+            </p>
+          </div>
+          <div>
+            <h1>Enjoy on your TV</h1>
+            <p>
+              Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV,
+              Blu-ray players, and more.
+            </p>
+          </div>
+          <div>
+            <h1>Enjoy on your TV</h1>
+            <p>
+              Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV,
+              Blu-ray players, and more.
+            </p>
+          </div>
+          <div>
+            <h1>Enjoy on your TV</h1>
+            <p>
+              Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV,
+              Blu-ray players, and more.
+            </p>
+          </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
+      <div className="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <FAQ />
+      </div>
+      <br />
+      <br />
+      <br />
     </div>
   );
 }
