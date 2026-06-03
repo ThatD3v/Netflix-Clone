@@ -1,0 +1,86 @@
+.checkPage {
+  height: 100vh;
+  background: #380707;
+  background: -webkit-linear-gradient(
+    180deg,
+    rgba(56, 7, 7, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  background: -moz-linear-gradient(
+    180deg,
+    rgba(56, 7, 7, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  background: linear-gradient(
+    180deg,
+    rgba(56, 7, 7, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#380707", endColorstr="#000000", GradientType=0);
+}
+
+.checkPage header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+}
+
+.checkPage header img {
+  margin-left: 10%;
+}
+
+.check-section {
+  width: 35%;
+  margin: auto;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 2%;
+  text-align: left;
+  /* border: 1px solid white; */
+  padding: 10px;
+}
+
+.check-section h1 {
+  color: white;
+}
+
+.check-section h3 {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.check-section .text {
+  margin-bottom: 5%;
+}
+
+.check-section form {
+  width: 100%;
+  /* border: 1px solid white; */
+}
+
+.check-section input {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  padding: 15px 15px;
+  width: 85%;
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 2%;
+}
+
+.check-section input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.check-section button {
+  width: 85%;
+  border: none;
+  padding: 10px 35px;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  color: white;
+  background-color: #e50914;
+  font-weight: bold;
+  cursor: pointer;
+}
