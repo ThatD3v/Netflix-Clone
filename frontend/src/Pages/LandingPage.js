@@ -1,12 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "../Styles/LandingPage.css";
 import Header from "../Components/Header";
 import FAQ from "../Components/Faq";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import AuthContext from "../Context/AuthProvider";
 
 function LandingPage() {
+  const { auth, setAuth } = useContext(AuthContext);
+
   const navigate = useNavigate();
+
   const carouselRef = useRef(null);
 
   const [email, setEmail] = useState("");
@@ -61,8 +65,9 @@ function LandingPage() {
           withCredentials: true,
         },
       );
-      console.log(JSON.stringify(response));
-      setEmail("");
+      console.log(JSON.stringify(response?.data));
+      console.log(auth);
+      setAuth(email);
       if (response.data.exists) {
         navigate("/login");
       } else {
