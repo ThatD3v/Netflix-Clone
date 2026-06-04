@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import "../Styles/LandingPage.css";
 import Header from "../Components/Header";
 import FAQ from "../Components/Faq";
+import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 
 function LandingPage() {
+  const navigate = useNavigate();
   const carouselRef = useRef(null);
 
+  const [email, setEmail] = useState("");
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
 
@@ -45,6 +49,30 @@ function LandingPage() {
     });
   };
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "Auth/check",
+        JSON.stringify({ identifier: email }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        },
+      );
+      console.log(JSON.stringify(response));
+      setEmail("");
+      if (response.data.exists) {
+        navigate("/login");
+      } else {
+        navigate("/register");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className="landing">
       <div className="background">
@@ -60,8 +88,15 @@ function LandingPage() {
             membership.
           </p>
           <div className="form">
-            <form>
-              <input type="email" placeholder="Email address" />
+            <form onSubmit={handleSubmit}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                autoComplete="off"
+                required
+              />
               <button>Get Started</button>
             </form>
           </div>

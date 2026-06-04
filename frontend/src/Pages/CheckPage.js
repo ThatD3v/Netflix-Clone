@@ -12,7 +12,7 @@ function CheckPage() {
           <h3>Or get started with a new account</h3>
         </div>
         <form>
-          <input type="email" placeholder="Email address" />
+          <input type="email" placeholder="Email address" autoComplete="off" />
           <br />
           <button>Continue</button>
         </form>
