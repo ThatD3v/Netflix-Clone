@@ -119,26 +119,14 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<IStreamingService, StreamingService>();
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAll", policy =>
-//    {
-//        policy.WithOrigins("http://localhost:3000", "http://localhost:3001", "http://localhost:5173")
-//              .AllowAnyMethod()
-//              .AllowAnyHeader()
-//              .AllowCredentials();
-//    });
-//});
-
-//var app = builder.Build();
-// --- UPDATE YOUR CORS POLICY BLOCK ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:3000", "http://localhost:3001", "http://localhost:5173")
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
