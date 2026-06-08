@@ -65,7 +65,7 @@
 .login-section .password-toggle {
   position: absolute;
   right: 90px;
-  top: 45%;
+  top: 50%;
   transform: translateY(-50%);
   border: none;
   background: none;

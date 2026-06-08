@@ -1,0 +1,42 @@
+.plan {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  height: 650px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.plan .colors {
+  border-radius: 10px;
+  color: white;
+  border: none;
+}
+
+.plan > div {
+  padding: 18px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.plan > div:last-child {
+  border-bottom: none;
+}
+
+.plan h4 {
+  font-weight: 600;
+}
+
+.plan .sub {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.plan .main {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
+  font-weight: 600;
+}

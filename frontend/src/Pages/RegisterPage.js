@@ -35,7 +35,7 @@ function CheckPage() {
       }
     } catch (error) {
       console.error(error.response?.data);
-      alert(error.response.data.message);
+      alert(error?.response?.data?.errors?.Password);
       if (
         error.response.data.message ===
         "An account with this email already exists. Please login."

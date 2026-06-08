@@ -1,0 +1,65 @@
+.plansPage {
+  background-color: white;
+  color: black;
+}
+
+.plansPage header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.plansPage header button {
+  margin-right: 10%;
+  border: none;
+  background-color: white;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.plansPage header button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.plansPage header img {
+  margin-left: 10%;
+}
+
+.plansPage main {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.plansPage main > div:first-child {
+  align-self: flex-start;
+  margin-left: 8%;
+}
+
+.plansPage main div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-bottom: 1%;
+}
+
+.plansPage main .plans {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.plansPage button {
+  padding: 10px 100px;
+  border: none;
+  background-color: #e50914;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
