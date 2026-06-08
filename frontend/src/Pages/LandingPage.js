@@ -67,7 +67,7 @@ function LandingPage() {
       );
       console.log(JSON.stringify(response?.data));
       console.log(auth);
-      setAuth(email);
+      setAuth({ email });
       if (response.data.exists) {
         navigate("/login");
       } else {
