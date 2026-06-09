@@ -46,7 +46,7 @@ function PlansPage() {
       </header>
       <main>
         <div>
-          Step 1 of 3<h1>Choose the plan that's right for you</h1>
+          <h1>Choose the plan that's right for you</h1>
         </div>
         <div className="plans">
           {plans.map((plan, index) => (

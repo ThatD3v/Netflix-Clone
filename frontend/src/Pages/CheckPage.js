@@ -1,14 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import axios from "../api/axios";
 import "../Styles/CheckPage.css";
-import AuthContext from "../Context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
 
 const CHECK_URL = "Auth/check";
 
 function CheckPage() {
   const navigate = useNavigate();
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useAuth();
 
   const [email, setEmail] = useState("");
 

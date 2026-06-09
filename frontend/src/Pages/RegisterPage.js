@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import axios from "../api/axios";
 import "../Styles/RegisterPage.css";
-import AuthContext from "../Context/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
 
 const REGISTER_URL = "Auth/register";
 
 function CheckPage() {
   const navigate = useNavigate();
-  const { auth } = useContext(AuthContext);
+  const { auth } = useAuth();
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

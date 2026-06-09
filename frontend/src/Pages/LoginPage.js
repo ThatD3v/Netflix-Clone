@@ -1,18 +1,23 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import "../Styles/LoginPage.css";
-import AuthContext from "../Context/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
 
 const LOGIN_URL = "Auth/login";
 
 function CheckPage() {
-  const { auth } = useContext(AuthContext);
+  const { auth } = useAuth();
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (!auth.email) navigate("/check");
+    else return;
+  });
 
   async function handleLogin(e) {
     e.preventDefault();

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../Styles/LandingPage.css";
 import Header from "../Components/Header";
 import FAQ from "../Components/Faq";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-import AuthContext from "../Context/AuthProvider";
+import useAuth from "../Hooks/useAuth";
 
 function LandingPage() {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useAuth();
 
   const navigate = useNavigate();
 
