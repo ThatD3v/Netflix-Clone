@@ -22,7 +22,9 @@ function ManageProfilesPage() {
   const fetchProfiles = useCallback(async () => {
     try {
       const response = await axiosPrivate.get("Profile/all");
-      setProfiles(response.data.profiles);
+      const backendProfiles = response.data.profiles;
+      const sortedProfiles = [...backendProfiles].reverse();
+      setProfiles(sortedProfiles);
       console.log(response.data);
     } catch (err) {
       setError("Failed to load profiles");

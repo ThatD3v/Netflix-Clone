@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useAxiosPrivate from "../Hooks/useAxiosPrivate";
 import "../Styles/ProfilePage.css";
 import Profile from "../Components/Profile";
@@ -19,41 +19,45 @@ function ProfilesPage() {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
+  const fetchProfiles = useCallback(async () => {
+    try {
+      const response = await axiosPrivate.get("Profile/all");
+      const backendProfiles = response.data.profiles;
+      const sortedProfiles = [...backendProfiles].reverse();
+      setProfiles(sortedProfiles);
+      console.log(response.data);
+    } catch (err) {
+      setError("Failed to load profiles");
+      console.error(err);
+    }
+  }, [axiosPrivate]);
+
   function getAvatarUrl(name) {
     const randomStyle = styles[Math.floor(Math.random() * styles.length)];
     return `https://api.dicebear.com/10.x/${randomStyle}/svg?seed=${name}`;
   }
 
-  async function handleAddProfile(e) {
-    const avatarUrl = getAvatarUrl(name);
+  useEffect(() => {
+    fetchProfiles();
+  }, [fetchProfiles]);
 
+  async function handleAddProfile(e) {
+    e.preventDefault();
+    const avatarUrl = getAvatarUrl(name);
     try {
       const response = await axiosPrivate.post("Profile/create", {
         name,
         avatarUrl,
         isKidsProfile: kidsProfile,
       });
+      await fetchProfiles();
+      setIsModalOpen(false);
       console.log(response.data);
     } catch (error) {
       setError("Failed to add profile.");
       console.error(error);
     }
   }
-
-  useEffect(() => {
-    const fetchProfiles = async () => {
-      try {
-        const response = await axiosPrivate.get("Profile/all");
-        setProfiles(response.data.profiles);
-        console.log(response.data);
-      } catch (err) {
-        setError("Failed to load profiles");
-        console.error(err);
-      }
-    };
-
-    fetchProfiles();
-  }, [axiosPrivate]);
 
   if (error) {
     return <h2>{error}</h2>;
