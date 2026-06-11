@@ -17,6 +17,7 @@ function Profile({ profile, showEdit }) {
       ) : (
         <img
           className={`profileIcon ${showEdit ? "editing" : ""}`}
+          style={{ color: "rgba(255, 255, 255, 0.7)" }}
           src={profile.avatarUrl}
           alt={profile.name}
           onError={() => setError(true)}

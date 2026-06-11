@@ -60,3 +60,103 @@
   border-color: white;
   color: white;
 }
+
+.modalContent {
+  text-align: center;
+}
+
+.modalContent h1 {
+  color: white;
+}
+
+.modalContent h4 {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+}
+
+.modalContent input {
+  margin-top: 10%;
+  background-color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  width: 80%;
+  padding: 20px;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.modalContent input::placeholder {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.modalContent hr {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.kidsProfileContainer {
+  display: flex;
+  text-align: left;
+  padding: 10px;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.kidsProfileLeft h1 {
+  font-size: 1.2rem;
+}
+
+.kidsProfileLeft h4 {
+  font-size: 1rem;
+}
+
+.checkboxRight .offCheckbox {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 3rem;
+  cursor: pointer;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.checkboxRight .onCheckbox {
+  color: #e50914;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+.modalContent .buttonsDiv {
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalContent .buttonsDiv button {
+  padding: 10px;
+  border: none;
+  margin-bottom: 2%;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+#modalSave {
+  background-color: white;
+  color: black;
+  transition: background-color 0.2s ease;
+}
+
+#modalSave:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+#modalCancel {
+  background-color: inherit;
+  transition: background-color 0.2s ease;
+}
+
+#modalCancel:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

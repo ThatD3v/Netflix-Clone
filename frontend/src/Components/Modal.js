@@ -21,7 +21,7 @@ const modalStyle = {
   borderRadius: "8px",
   position: "relative",
   minWidth: "300px",
-  width: "50%",
+  width: "45%",
   height: "75%",
   border: "1px solid rgba(255, 255, 255, 0.3)",
 };
