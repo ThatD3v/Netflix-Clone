@@ -202,23 +202,11 @@ namespace NetflixClone.Services
 
         public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request)
         {
-            var principal = GetPrincipalFromExpiredToken(request.AccessToken);
-            var userId = principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+     
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.RefreshToken == request.RefreshToken);
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return new AuthResponse
-                {
-                    Success = false,
-                    Message = "Invalid access token"
-                };
-            }
-
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null ||
-                user.RefreshToken != request.RefreshToken ||
-                user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             {
                 return new AuthResponse
                 {
