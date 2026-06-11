@@ -7,25 +7,28 @@ import PlansPage from "./Pages/PlansPage";
 import ProfilesPage from "./Pages/ProfilesPage";
 import ManageProfilesPage from "./Pages/ManageProfilesPage";
 import Layout from "./Components/Layout";
+import { LoadingProvider } from "./Context/LoadingProvider";
 // import RequireAuth from "./Components/RequireAuth";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<LandingPage />} />
-          <Route path="/check" element={<CheckPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/plans" element={<PlansPage />} />
-          {/* <Route element={<RequireAuth />}> */}
-          <Route path="/profiles" element={<ProfilesPage />} />
-          <Route path="/manageProfiles" element={<ManageProfilesPage />} />
-          {/* </Route> */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <LoadingProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<LandingPage />} />
+            <Route path="/check" element={<CheckPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/plans" element={<PlansPage />} />
+            {/* <Route element={<RequireAuth />}> */}
+            <Route path="/profiles" element={<ProfilesPage />} />
+            <Route path="/manageProfiles" element={<ManageProfilesPage />} />
+            {/* </Route> */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </LoadingProvider>
   );
 }
 
