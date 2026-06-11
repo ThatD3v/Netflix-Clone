@@ -9,7 +9,7 @@ const REGISTER_URL = "Auth/register";
 
 function CheckPage() {
   const navigate = useNavigate();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,9 +25,11 @@ function CheckPage() {
           withCredentials: true,
         },
       );
+      const accessToken = response.data.accessToken;
+      const refreshToken = response.data.refreshToken;
+      setAuth({ accessToken, refreshToken });
       console.log(JSON.stringify(response?.data));
       console.log(auth);
-      console.log(password);
       if (response?.data?.hasSubscription) {
         navigate("/profiles");
       } else {

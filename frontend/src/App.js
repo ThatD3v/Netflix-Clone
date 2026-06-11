@@ -5,8 +5,9 @@ import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import PlansPage from "./Pages/PlansPage";
 import ProfilesPage from "./Pages/ProfilesPage";
+import ManageProfilesPage from "./Pages/ManageProfilesPage";
 import Layout from "./Components/Layout";
-import RequireAuth from "./Components/RequireAuth";
+// import RequireAuth from "./Components/RequireAuth";
 
 function App() {
   return (
@@ -18,9 +19,10 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/plans" element={<PlansPage />} />
-          <Route element={<RequireAuth />}>
-            <Route path="/profiles" element={<ProfilesPage />} />
-          </Route>
+          {/* <Route element={<RequireAuth />}> */}
+          <Route path="/profiles" element={<ProfilesPage />} />
+          <Route path="/manageProfiles" element={<ManageProfilesPage />} />
+          {/* </Route> */}
         </Route>
       </Routes>
     </BrowserRouter>

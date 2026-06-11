@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../Hooks/useAxiosPrivate";
+import "../Styles/ProfilePage.css";
+import Profile from "../Components/Profile";
+import { GoPlusCircle } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
+import Modal from "../Components/Modal";
+import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
 
 function ProfilesPage() {
-  const [profile, setProfile] = useState([]);
+  const [profiles, setProfiles] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
+  const [kidsProfile, setKidsProfile] = useState(false);
+
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await axiosPrivate.get("Subscription/Profile/all");
-
-        setProfile(response.data);
+        const response = await axiosPrivate.get("Profile/all");
+        setProfiles(response.data.profiles);
+        console.log(response.data);
       } catch (err) {
-        setError("Failed to load plans");
+        setError("Failed to load profiles");
         console.error(err);
       }
     };
@@ -25,7 +35,58 @@ function ProfilesPage() {
     return <h2>{error}</h2>;
   }
 
-  return <div></div>;
+  return (
+    <div className="profilesPage">
+      <h1>Who's watching?</h1>
+      <div className="profileList">
+        {profiles.map((profile) => (
+          <Profile key={profile.id} profile={profile} showEdit={false} />
+        ))}
+        <div className="addProfile">
+          <GoPlusCircle
+            className="icon"
+            onClick={() => setIsModalOpen(true)}
+            style={{ fontSize: "10rem", color: "rgba(255, 255, 255, 0.7)" }}
+          />
+          <p>Add Profile</p>
+        </div>
+      </div>
+      <Modal open={isModalOpen} close={() => setIsModalOpen(false)}>
+        <div className="modalContent">
+          <h1>Add a profile</h1>
+          <h4>Add a profile for another person watching Netflix</h4>
+          <input type="text" placeholder="Name" />
+          <br />
+          <br />
+          <br />
+          <hr />
+          <br />
+          <div className="kidsProfileContainer">
+            <div className="kidsProfileLeft">
+              <h1>Kids Profile</h1>
+              <h4>Only see kids-friendly TV shows and movies</h4>
+            </div>
+            <div className="checkboxRight">
+              {kidsProfile ? (
+                <FaToggleOn
+                  className="onCheckbox"
+                  onClick={() => setKidsProfile(!kidsProfile)}
+                />
+              ) : (
+                <FaToggleOff
+                  className="offCheckbox"
+                  onClick={() => setKidsProfile(!kidsProfile)}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </Modal>
+      <button onClick={() => navigate("/manageProfiles")}>
+        Manage Profiles
+      </button>
+    </div>
+  );
 }
 
 export default ProfilesPage;

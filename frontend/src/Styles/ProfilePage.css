@@ -1,0 +1,62 @@
+.profilesPage {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #141414;
+  color: rgba(255, 255, 255, 0.5);
+  gap: 30px;
+}
+
+.profilesPage h1 {
+  color: white;
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.profilesPage .profileList {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.profilesPage .addProfile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profilesPage .addProfile .icon {
+  padding: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profilesPage .addProfile:hover .icon {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.profilesPage .addProfile:hover p {
+  color: white;
+}
+
+.profilesPage button {
+  color: rgba(255, 255, 255, 0.5);
+  background-color: inherit;
+  border: none;
+  padding: 5px 30px;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  margin-top: 4%;
+}
+
+.profilesPage button:hover {
+  border-color: white;
+  color: white;
+}

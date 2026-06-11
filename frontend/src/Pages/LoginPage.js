@@ -8,7 +8,7 @@ import useAuth from "../Hooks/useAuth";
 const LOGIN_URL = "Auth/login";
 
 function CheckPage() {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
@@ -30,6 +30,9 @@ function CheckPage() {
           withCredentials: true,
         },
       );
+      const accessToken = response?.data?.accessToken;
+      const refreshToken = response?.data?.refreshToken;
+      setAuth({ accessToken, refreshToken });
       console.log(response?.data);
       console.log(auth);
       if (response.data.hasSubscription) {

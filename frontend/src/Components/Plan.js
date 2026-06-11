@@ -1,8 +1,8 @@
 import "./Plan.css";
 
-function Plan({ plan, gradient }) {
+function Plan({ plan, gradient, selected, onSelect }) {
   return (
-    <div className="plan">
+    <div className={`plan ${selected ? "selected" : ""}`} onClick={onSelect}>
       <div className="colors" style={{ background: gradient }}>
         <h3>{plan.name}</h3>
         <h4>{plan.videoQuality}</h4>
