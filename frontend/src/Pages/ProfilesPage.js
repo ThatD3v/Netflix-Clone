@@ -68,7 +68,12 @@ function ProfilesPage() {
       <h1>Who's watching?</h1>
       <div className="profileList">
         {profiles.map((profile) => (
-          <Profile key={profile.id} profile={profile} showEdit={false} />
+          <Profile
+            key={profile.id}
+            profile={profile}
+            showEdit={false}
+            onClick={() => navigate("/home")}
+          />
         ))}
         {profiles.length < 5 ? (
           <div className="addProfile">

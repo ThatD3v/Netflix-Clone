@@ -8,6 +8,7 @@ import ProfilesPage from "./Pages/ProfilesPage";
 import ManageProfilesPage from "./Pages/ManageProfilesPage";
 import Layout from "./Components/Layout";
 import { LoadingProvider } from "./Context/LoadingProvider";
+import HomePage from "./Pages/HomePage";
 // import RequireAuth from "./Components/RequireAuth";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/plans" element={<PlansPage />} />
             {/* <Route element={<RequireAuth />}> */}
             <Route path="/profiles" element={<ProfilesPage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/manageProfiles" element={<ManageProfilesPage />} />
             {/* </Route> */}
           </Route>

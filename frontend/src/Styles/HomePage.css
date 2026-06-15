@@ -1,0 +1,24 @@
+.homepage {
+  height: 100vh;
+  background-color: #141414;
+  color: white;
+}
+
+.homepage .homeHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 50px;
+  border: 1px solid white;
+}
+
+.homeHeader .leftSide {
+  display: flex;
+  gap: 50px;
+  flex-direction: row;
+}
+
+.leftSide ul {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
