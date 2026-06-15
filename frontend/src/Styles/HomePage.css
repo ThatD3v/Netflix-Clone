@@ -1,14 +1,50 @@
 .homepage {
-  height: 100vh;
+  min-height: 100vh;
   background-color: #141414;
   color: white;
+  position: relative;
+}
+
+.homepage .background {
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.homepage * {
+  border: 1px solid red;
 }
 
 .homepage .homeHeader {
   display: flex;
   justify-content: space-between;
   padding: 20px 50px;
-  border: 1px solid white;
+  position: sticky;
+  z-index: 1000;
+  top: 0;
+  background-color: transparent;
+  /* border: 1px solid white; */
+}
+
+.homeHeader li {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s ease-in;
+}
+
+.navbar-top {
+  background-color: transparent;
+}
+
+.navbar-scrolled {
+  background-color: #141414;
+}
+
+.homeHeader li:hover {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .homeHeader .leftSide {
@@ -17,8 +53,87 @@
   flex-direction: row;
 }
 
-.leftSide ul {
+.homepage .homeHeader .leftSide ul {
   list-style-type: none;
   display: flex;
   gap: 20px;
+}
+
+.homepage .rightSide {
+  gap: 30px;
+  display: flex;
+  margin-top: -0.5%;
+}
+
+.avatarWrapper {
+  width: 40px;
+  height: 40px;
+}
+
+.bannerOverlay p {
+  margin-top: 5%;
+}
+
+.avatarWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.bannerOverlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 90%;
+  padding-left: 5%;
+  width: 40%;
+}
+
+.navbarIcons {
+  box-sizing: content-box;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding-top: 6px;
+}
+
+.bannerOverlay .buttons {
+  margin-top: 5%;
+  display: flex;
+  gap: 20px;
+}
+
+.bannerOverlay .buttons button {
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in;
+}
+
+.buttonIcon {
+  left: 0;
+  margin-top: 5px;
+  color: black;
+}
+
+#lightButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+#darkButton {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+#darkButton:hover {
+  background-color: rgba(255, 255, 255, 0.3);
 }

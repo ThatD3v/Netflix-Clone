@@ -6,6 +6,7 @@ import { GoPlusCircle } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Components/Modal";
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
+import useAuth from "../Hooks/useAuth";
 
 const styles = ["adventurer", "bottts", "lorelei", "personas"];
 
@@ -18,6 +19,7 @@ function ProfilesPage() {
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
   const fetchProfiles = useCallback(async () => {
     try {
@@ -72,7 +74,11 @@ function ProfilesPage() {
             key={profile.id}
             profile={profile}
             showEdit={false}
-            onClick={() => navigate("/home")}
+            onClick={() => {
+              setAuth((prev) => ({ ...prev, profileId: profile.id }));
+              localStorage.setItem("selectedProfile", JSON.stringify(profile));
+              navigate("/home", { state: { profile } });
+            }}
           />
         ))}
         {profiles.length < 5 ? (
