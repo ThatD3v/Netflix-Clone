@@ -6,33 +6,42 @@
 }
 
 .homepage .background {
-  position: relative;
+  /* position: relative; */
   height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 }
 
-.homepage * {
-  border: 1px solid red;
+.homepage .carouselContainer {
+  margin-top: -10%;
 }
+
+/* .homepage * {
+  border: 1px solid red;
+} */
 
 .homepage .homeHeader {
   display: flex;
   justify-content: space-between;
   padding: 20px 50px;
-  position: sticky;
+  position: fixed;
   z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
   top: 0;
-  background-color: transparent;
   /* border: 1px solid white; */
 }
 
-.homeHeader li {
+.homeHeader li a {
   cursor: pointer;
   color: rgba(255, 255, 255, 0.8);
   transition: color 0.2s ease-in;
+  text-decoration: none;
 }
 
 .navbar-top {
@@ -43,7 +52,16 @@
   background-color: #141414;
 }
 
-.homeHeader li:hover {
+.homeHeader li a.active {
+  color: white;
+  cursor: default;
+}
+
+.homeHeader li a.active:hover {
+  color: white;
+}
+
+.homeHeader li a:hover {
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -68,6 +86,39 @@
 .avatarWrapper {
   width: 40px;
   height: 40px;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  font-size: 0.9rem;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: absolute;
+  right: 0;
+  min-width: 150px;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.dropdownContent ul {
+  list-style-type: none;
+}
+
+.dropdownContent li {
+  margin: 5px 0;
+  padding: 5px;
+}
+
+.avatarWrapper:hover .dropdownContent {
+  opacity: 1;
+  visibility: visible;
 }
 
 .bannerOverlay p {
@@ -87,7 +138,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 90%;
+  height: 100%;
   padding-left: 5%;
   width: 40%;
 }

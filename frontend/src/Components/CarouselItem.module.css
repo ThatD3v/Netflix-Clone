@@ -1,0 +1,11 @@
+/* .carouselItem {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  height: 110px;
+} */
+
+.carouselItem img {
+  height: 300px;
+  width: 230px;
+}

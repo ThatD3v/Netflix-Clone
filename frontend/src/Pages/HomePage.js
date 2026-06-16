@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import "../Styles/HomePage.css";
-import { CiSearch, CiBellOn } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { FaInfoCircle, FaUserCircle, FaPlay } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../Hooks/useAxiosPrivate";
 import useAuth from "../Hooks/useAuth";
+import Carousel from "../Components/Carousel";
 
 function HomePage() {
   const [error, setError] = useState(false);
   const [heroBanner, setHeroBanner] = useState(null);
-  const [rows, setRows] = useState(null);
+  const [rows, setRows] = useState([]);
   const [scrolled, setScrolled] = useState(false);
 
   const { auth, setAuth } = useAuth();
@@ -24,19 +25,24 @@ function HomePage() {
 
   const avatarUrl = selectedProfile?.avatarUrl || "";
 
-  const heroStyle = heroBanner?.bannerUrl
-    ? {
-        backgroundImage: `linear-gradient(
+  const heroStyle = {
+    backgroundImage: heroBanner?.bannerUrl
+      ? `linear-gradient(
           to bottom,
           rgba(0, 0, 0, 0.85) 0%,
           rgba(0, 0, 0, 0.35) 10%
-        ), url(${heroBanner.bannerUrl})`,
-      }
-    : {};
+        ), linear-gradient(
+      to bottom,
+      rgba(20, 20, 20, 0) 80%, 
+      rgba(20, 20, 20, 0.7) 85%,
+      #141414 100%
+    ), url(${heroBanner.bannerUrl})`
+      : "none",
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 0);
+      setScrolled(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -77,58 +83,77 @@ function HomePage() {
 
   return (
     <div className="homepage">
-      <div className="background" style={heroStyle}>
-        <div
-          className={`homeHeader ${scrolled ? "navbar-scrolled" : "navbar-top"}`}
-        >
-          <div className="leftSide">
-            <ul>
-              <li>
-                <img
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigate("/")}
-                  src="Netflix Logo/Netflix.png"
-                  alt="Netflix"
-                  height={"25px"}
-                />
-              </li>
-              <li>Home</li>
-              <li>Shows</li>
-              <li>Movies</li>
-              <li>New & Popular</li>
-              <li>My List</li>
-            </ul>
-          </div>
+      <div
+        className={`homeHeader ${scrolled ? "navbar-scrolled" : "navbar-top"}`}
+      >
+        <div className="leftSide">
+          <ul>
+            <li>
+              <img
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/")}
+                src="Netflix Logo/Netflix.png"
+                alt="Netflix"
+                height={"25px"}
+              />
+            </li>
+            <li>
+              <NavLink to={"/home"}>Home</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/shows"}>Shows</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/movies"}>Movies</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/new&popular"}>New & Popular</NavLink>
+            </li>
+            <li>
+              <NavLink to={"mylist"}>My List</NavLink>
+            </li>
+          </ul>
+        </div>
 
-          <div className="rightSide">
-            <CiSearch className="navbarIcons" />
-            <CiBellOn className="navbarIcons" />
+        <div className="rightSide">
+          <CiSearch className="navbarIcons" />
 
-            <div className="avatarWrapper">
-              {!error && avatarUrl ? (
-                <img
-                  src={avatarUrl}
-                  alt={selectedProfile?.name || "Profile"}
-                  onError={() => setError(true)}
-                />
-              ) : (
-                <FaUserCircle className="navbarIcons" />
-              )}
+          <div className="avatarWrapper">
+            {!error && avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={selectedProfile?.name || "Profile"}
+                onError={() => setError(true)}
+              />
+            ) : (
+              <FaUserCircle className="navbarIcons" />
+            )}
+            <div className="dropdownContent">
+              <ul>
+                <li>
+                  <NavLink to={"/account"}>
+                    <div>Account</div>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to={"/account"}>Account</NavLink>
+                </li>
+                <li>
+                  <NavLink to={"/account"}>Account</NavLink>
+                </li>
+                <li>
+                  <NavLink to={"/account"}>Account</NavLink>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
+      </div>
+      <div className="background" style={heroStyle}>
         <div className="bannerOverlay">
           <div>
             <h3>Most Liked</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <p>{heroBanner?.description}</p>
             <div className="buttons">
               <div>
                 <button id="lightButton">
@@ -151,6 +176,11 @@ function HomePage() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="carouselContainer">
+        {rows.map((row) => (
+          <Carousel key={row.id} title={row.title} details={row.items} />
+        ))}
       </div>
     </div>
   );

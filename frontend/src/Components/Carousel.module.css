@@ -1,0 +1,19 @@
+.carousel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: white;
+  /* border: 1px solid red; */
+  padding: 10px 50px;
+  z-index: 1;
+  margin-bottom: 3%;
+}
+
+.carousel:last-child {
+  margin-bottom: 0;
+}
+
+#rowTitles {
+  padding: 10px 50px;
+  color: rgba(255, 255, 255, 0.7);
+}
