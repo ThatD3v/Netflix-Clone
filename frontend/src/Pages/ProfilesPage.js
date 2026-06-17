@@ -19,7 +19,7 @@ function ProfilesPage() {
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const fetchProfiles = useCallback(async () => {
     try {
@@ -27,12 +27,13 @@ function ProfilesPage() {
       const backendProfiles = response.data.profiles;
       const sortedProfiles = [...backendProfiles].reverse();
       setProfiles(sortedProfiles);
+      setAuth({ profiles: sortedProfiles });
       console.log(response.data);
     } catch (err) {
       setError("Failed to load profiles");
       console.error(err);
     }
-  }, [axiosPrivate]);
+  }, [setAuth, axiosPrivate]);
 
   function getAvatarUrl(name) {
     const randomStyle = styles[Math.floor(Math.random() * styles.length)];
@@ -75,6 +76,7 @@ function ProfilesPage() {
             profile={profile}
             showEdit={false}
             onClick={() => {
+              console.log(auth);
               setAuth((prev) => ({ ...prev, profileId: profile.id }));
               localStorage.setItem("selectedProfile", JSON.stringify(profile));
               navigate("/home", { state: { profile } });

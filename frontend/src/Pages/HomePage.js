@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import "../Styles/HomePage.css";
 import { CiSearch } from "react-icons/ci";
-import { FaInfoCircle, FaUserCircle, FaPlay } from "react-icons/fa";
+import { MdAccountBox } from "react-icons/md";
+import { ImExit } from "react-icons/im";
+import { FaInfoCircle, FaUserCircle, FaPlay, FaUserEdit } from "react-icons/fa";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../Hooks/useAxiosPrivate";
 import useAuth from "../Hooks/useAuth";
 import Carousel from "../Components/Carousel";
+import DropdownProfile from "../Components/DropdownProfile";
 
 function HomePage() {
   const [error, setError] = useState(false);
@@ -131,18 +134,44 @@ function HomePage() {
             <div className="dropdownContent">
               <ul>
                 <li>
+                  {auth?.profiles.map((profile) => (
+                    <DropdownProfile
+                      key={profile.id}
+                      profile={profile}
+                      onClick={() => {
+                        setAuth((prev) => ({ ...prev, profileId: profile.id }));
+                        localStorage.setItem(
+                          "selectedProfile",
+                          JSON.stringify(profile),
+                        );
+                        navigate("/home", { state: { profile } });
+                      }}
+                    />
+                  ))}
+                </li>
+                <li>
                   <NavLink to={"/account"}>
-                    <div>Account</div>
+                    <div>
+                      <FaUserEdit />
+                      Manage Profiles
+                    </div>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/account"}>Account</NavLink>
+                  <NavLink to={"/account"}>
+                    <div>
+                      <MdAccountBox />
+                      Account
+                    </div>
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/account"}>Account</NavLink>
-                </li>
-                <li>
-                  <NavLink to={"/account"}>Account</NavLink>
+                  <NavLink to={"/account"}>
+                    <div>
+                      <ImExit />
+                      Sign out
+                    </div>
+                  </NavLink>
                 </li>
               </ul>
             </div>
