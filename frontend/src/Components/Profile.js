@@ -3,11 +3,11 @@ import "./Profile.css";
 import { FaUserCircle } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 
-function Profile({ profile, showEdit, onClick }) {
+function Profile({ profile, showEdit, onClick, showName }) {
   const [error, setError] = useState(false);
 
   return (
-    <div className="profile" onClick={onClick}>
+    <div className={showName ? "profile" : "cursor"} onClick={onClick}>
       {showEdit && <CiEdit className="editIcon" />}
       {error || !profile.avatarUrl ? (
         <FaUserCircle
@@ -23,7 +23,7 @@ function Profile({ profile, showEdit, onClick }) {
           onError={() => setError(true)}
         />
       )}
-      <p>{profile.name}</p>
+      {showName && <p>{profile.name}</p>}
     </div>
   );
 }

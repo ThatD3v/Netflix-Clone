@@ -134,7 +134,7 @@ function ManageProfilesPage() {
       </Modal>
       <button
         style={{ backgroundColor: "rgba(255, 255, 255, 0.8)", color: "black" }}
-        onClick={() => navigate("/profiles")}
+        onClick={() => navigate("/account")}
       >
         Done
       </button>

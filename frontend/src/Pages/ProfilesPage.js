@@ -27,7 +27,10 @@ function ProfilesPage() {
       const backendProfiles = response.data.profiles;
       const sortedProfiles = [...backendProfiles].reverse();
       setProfiles(sortedProfiles);
-      setAuth({ profiles: sortedProfiles });
+      setAuth((prev) => ({
+        ...prev,
+        profiles: sortedProfiles,
+      }));
       console.log(response.data);
     } catch (err) {
       setError("Failed to load profiles");
@@ -145,7 +148,7 @@ function ProfilesPage() {
           </form>
         </div>
       </Modal>
-      <button onClick={() => navigate("/manageProfiles")}>
+      <button onClick={() => navigate("/account/profiles")}>
         Manage Profiles
       </button>
     </div>

@@ -9,12 +9,25 @@
   position: relative;
 }
 
-.profile img {
+.cursor {
+  cursor: default;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.profile img,
+.cursor img {
   height: 160px;
   width: 160px;
 }
 
-.profile .profileIcon {
+.profile .profileIcon,
+.cursor .profileIcon {
   padding: 20px;
   border-radius: 5px;
 }

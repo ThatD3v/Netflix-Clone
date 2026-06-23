@@ -5,7 +5,11 @@ function DropdownProfile({ profile, onClick }) {
   const [error, setError] = useState(false);
 
   return (
-    <div className="dropdownProfile" onClick={onClick}>
+    <div
+      className="dropdownProfile"
+      onClick={onClick}
+      style={{ color: "white" }}
+    >
       {error || !profile.avatarUrl ? (
         <FaUserCircle
           style={{ fontSize: "1.5rem", color: "rgba(255, 255, 255, 0.7)" }}

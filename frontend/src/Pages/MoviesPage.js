@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useAxiosPrivate from "../Hooks/useAxiosPrivate";
 
-function HomePage() {
+function MoviesPage() {
   const [heroBanner, setHeroBanner] = useState(null);
   const { auth, setAuth } = useAuth();
 
@@ -56,4 +56,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default MoviesPage;

@@ -1,0 +1,68 @@
+.background {
+  /* position: relative; */
+  background-color: #141414;
+  height: 100vh;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.bannerOverlay p {
+  margin-top: 5%;
+}
+
+.bannerOverlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding-left: 5%;
+  width: 40%;
+}
+
+.bannerOverlay .buttons {
+  margin-top: 5%;
+  display: flex;
+  gap: 20px;
+}
+
+.bannerOverlay .buttons {
+  margin-top: 5%;
+  display: flex;
+  gap: 20px;
+}
+
+.bannerOverlay .buttons button {
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in;
+}
+
+.buttonIcon {
+  left: 0;
+  margin-top: 5px;
+  color: black;
+}
+
+#lightButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+#darkButton {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+#darkButton:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}

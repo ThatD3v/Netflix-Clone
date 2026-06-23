@@ -1,11 +1,53 @@
-/* .carouselItem {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  height: 110px;
-} */
+.container {
+  position: relative;
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
 
-.carouselItem img {
-  height: 300px;
+.poster {
   width: 230px;
+  height: 300px;
+  cursor: pointer;
+}
+
+.expandedCard {
+  position: absolute;
+  top: -50px; /* Adjust to shift up */
+  left: -20px; /* Adjust to center/shift left */
+  width: 280px; /* Larger than the original */
+  height: 400px;
+  background: #181818;
+  border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.expandedCard img {
+  width: 100%;
+  height: 85%;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+}
+
+.leftside {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  border-radius: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 2rem;
+  padding: 5px;
+}
+
+.icon:hover {
+  border: 1px solid white;
 }

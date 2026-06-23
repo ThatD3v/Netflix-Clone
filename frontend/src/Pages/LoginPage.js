@@ -7,7 +7,7 @@ import useAuth from "../Hooks/useAuth";
 
 const LOGIN_URL = "Auth/login";
 
-function CheckPage() {
+function LoginPage() {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -16,8 +16,7 @@ function CheckPage() {
 
   useEffect(() => {
     if (!auth.email) navigate("/check");
-    else return;
-  });
+  }, [auth.email, navigate]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -32,7 +31,7 @@ function CheckPage() {
       );
       const accessToken = response?.data?.accessToken;
       const refreshToken = response?.data?.refreshToken;
-      setAuth({ accessToken, refreshToken });
+      setAuth((prev) => ({ ...prev, accessToken, refreshToken }));
       console.log(response?.data);
       console.log(auth);
       if (response.data.hasSubscription) {
@@ -42,7 +41,7 @@ function CheckPage() {
       }
     } catch (error) {
       console.error(error);
-      console.error(error.response.data);
+      console.error(error.response?.data);
     }
   }
 
@@ -80,4 +79,4 @@ function CheckPage() {
   );
 }
 
-export default CheckPage;
+export default LoginPage;
