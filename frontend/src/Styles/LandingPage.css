@@ -54,6 +54,7 @@
   display: flex;
   margin-top: 10%;
   flex-direction: column;
+  padding: 0 20px;
 }
 
 .mainTitle h1 {
@@ -97,6 +98,75 @@
   background-color: #e50914;
   font-weight: 700;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .mainTitle h1 {
+    font-size: 2.8rem;
+  }
+
+  .mainTitle h4 {
+    font-size: 1rem;
+  }
+
+  .mainTitle button {
+    font-size: 1.2rem;
+  }
+
+  .mainTitle input {
+    width: 300px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainTitle h1 {
+    font-size: 2rem;
+  }
+
+  .mainTitle h4 {
+    font-size: 0.9rem;
+  }
+
+  .mainTitle p {
+    font-size: 0.85rem;
+  }
+
+  .mainTitle input {
+    width: 250px;
+    padding: 12px 12px;
+    font-size: 0.9rem;
+  }
+
+  .mainTitle button {
+    font-size: 1rem;
+    padding: 8px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainTitle h1 {
+    font-size: 1.5rem;
+    max-width: 15ch;
+  }
+
+  .mainTitle h4 {
+    font-size: 0.85rem;
+  }
+
+  .mainTitle p {
+    font-size: 0.75rem;
+  }
+
+  .mainTitle input {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .mainTitle button {
+    font-size: 0.9rem;
+    padding: 6px 20px;
+  }
 }
 
 .mainTitle form {

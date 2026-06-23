@@ -19,7 +19,7 @@
   background: #181818;
   border-radius: 5px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  z-index: 1000;
   overflow: hidden;
   cursor: pointer;
 }

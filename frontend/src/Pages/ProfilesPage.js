@@ -78,6 +78,7 @@ function ProfilesPage() {
             key={profile.id}
             profile={profile}
             showEdit={false}
+            showName={true}
             onClick={() => {
               console.log(auth);
               setAuth((prev) => ({ ...prev, profileId: profile.id }));

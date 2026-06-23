@@ -155,20 +155,103 @@
   color: white;
 }
 
-.cancelButton {
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: transparent;
-  color: #fff;
-}
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
+  .accountProfilesPage {
+    padding: 24px;
+  }
+  
+  .profilesHeader h1 {
+    font-size: 2rem;
+  }
+  
   .profilesGrid {
     grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 18px;
+  }
+  
+  .profileCard {
+    padding: 18px;
+    gap: 14px;
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 768px) {
+  .accountProfilesPage {
+    padding: 18px;
+  }
+  
+  .profilesHeader h1 {
+    font-size: 1.6rem;
+  }
+  
+  .profilesHeader p {
+    font-size: 0.9rem;
+  }
+  
+  .profilesGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .profileCard {
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .profileName {
+    font-size: 1.1rem;
+  }
+  
+  .editButton {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .accountProfilesPage {
+    padding: 12px;
+  }
+  
+  .profilesHeader h1 {
+    font-size: 1.3rem;
+  }
+  
+  .profilesHeader p {
+    font-size: 0.85rem;
+  }
+  
   .profilesGrid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .profileCard {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .profileName {
+    font-size: 1rem;
+  }
+  
+  .profileMeta {
+    font-size: 0.85rem;
+  }
+  
+  .editButton {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+  
+  .editActions {
+    flex-direction: column;
+  }
+  
+  .saveButton,
+  .cancelButton {
+    width: 100%;
   }
 }

@@ -100,4 +100,99 @@
   background-color: #e50914;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-section .submit-button:hover {
+  background-color: #c40812;
+}
+
+@media (max-width: 1024px) {
+  .login-section {
+    width: 50%;
+  }
+
+  .login-section input {
+    width: 90%;
+  }
+
+  .login-section .submit-button {
+    width: 90%;
+    font-size: 1.1rem;
+  }
+
+  .login-section .password-toggle {
+    right: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .loginPage header {
+    padding: 15px 10px;
+  }
+
+  .loginPage header img {
+    margin-left: 0;
+    max-width: 120px;
+  }
+
+  .login-section {
+    width: 85%;
+    margin-top: 5%;
+    padding: 20px;
+  }
+
+  .login-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .login-section h3 {
+    font-size: 0.9rem;
+  }
+
+  .login-section input {
+    width: 100%;
+    padding: 12px 12px;
+    padding-right: 40px;
+    font-size: 0.95rem;
+    margin-bottom: 3%;
+  }
+
+  .login-section .submit-button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+
+  .login-section .password-toggle {
+    font-size: 1rem;
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginPage header img {
+    max-width: 100px;
+  }
+
+  .login-section {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .login-section h1 {
+    font-size: 1.2rem;
+  }
+
+  .login-section h3 {
+    font-size: 0.8rem;
+  }
+
+  .login-section input {
+    font-size: 0.9rem;
+  }
+
+  .login-section .submit-button {
+    font-size: 0.9rem;
+  }
 }

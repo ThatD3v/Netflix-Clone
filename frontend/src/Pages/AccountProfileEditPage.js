@@ -75,8 +75,7 @@ function AccountProfileEditPage() {
     }
     setSaving(true);
     try {
-      await axiosPrivate.put("Profile/", {
-        profileId: profile.id,
+      await axiosPrivate.put(`Profile/${profile.id}`, {
         name: name.trim(),
         avatarUrl,
       });
@@ -165,11 +164,11 @@ function AccountProfileEditPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Profile name"
-              className={styles.nameInput}
+              className={styles.seedInput}
             />
           </div>
 
-          <div className={styles.kidsToggle}>
+          {/* <div className={styles.kidsToggle}>
             <label>
               <input
                 type="checkbox"
@@ -178,7 +177,7 @@ function AccountProfileEditPage() {
               />
               <span>Kids profile</span>
             </label>
-          </div>
+          </div> */}
 
           <div className={styles.footerButtons}>
             <button
@@ -213,7 +212,7 @@ function AccountProfileEditPage() {
             </section>
           )}
 
-          <section className={styles.avatarSection}>
+          {/* <section className={styles.avatarSection}>
             <h2>Custom seed</h2>
             <div className={styles.customSeedForm}>
               <input
@@ -238,7 +237,7 @@ function AccountProfileEditPage() {
                 Apply
               </button>
             </div>
-          </section>
+          </section> */}
 
           {dicebearStyles.map((style) => (
             <section key={style} className={styles.avatarSection}>
